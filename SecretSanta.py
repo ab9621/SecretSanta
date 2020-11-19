@@ -108,6 +108,6 @@ if __name__ == '__main__':
     previous, previousPictures = loadPreviousEditions('[Path to folder of previous messages]')  # Put the path of a folder in here which contains any previous messages you sent and don't want pairs repeating of
     forbiddenRelations = couples + previous
     pairings = generateSecretSanta(people, forbiddenRelations)  # Generate the pairings
-    pics = getPicturePeople(people, prevPics)
+    pics = getPicturePeople(people, previousPictures)
     pics = [p if p in pics else False for p in people]
-    writeQuizPairs(res, '[path to write files in]', pics)
+    writeQuizPairs(pairings, '[path to write files in]', pics)
