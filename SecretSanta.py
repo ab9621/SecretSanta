@@ -6,9 +6,11 @@ import os
 
 def generateSecretSanta(names, invalidRelationships):
     people2 = [a for a in names]
-    d1 = {a:b for a,b in invalidRelationships}
-    d2 = {b:a for a,b in invalidRelationships}
-
+    d1 = {a:[] for a in names}
+    
+    for p1, p2 in invalidRelationships:
+        d1[p1].append(p2)
+        
     validSets = False
 
     while not validSets:
@@ -17,18 +19,9 @@ def generateSecretSanta(names, invalidRelationships):
         for p1, p2 in zip(names, people2):
             if p1 == p2:
                 valid = False
-            if p1 in d1:
-                if d1[p1] == p2:
-                    valid = False
-            if p1 in d2:
-                if d2[p1] == p2:
-                    valid = False
-            pairs1 = [(a, b) for a, b in zip(names, people2)]
-            pairs2 = [(b, a) for a, b in zip(names, people2)]
-            for a in pairs1:
-                for b in pairs2:
-                    if a == b:
-                        valid = False
+            if p2 in d1[p1]:
+                valid = False
+ 
         if valid:
             validSets = True
     return [(a, b) for a,b in zip(names, people2)]
@@ -38,7 +31,7 @@ def writeMessage(pairs, path):
     for p in pairs:
         with open(path + '/{}SecretSanta.txt'.format(p[0]), 'w') as f:
             f.write('Dear {},\n\n'.format(p[0]))
-            f.write('The person who you are buying a Secret Santa present for is {}.\n\nPresents can be up to £30 and are to be given out on Christmas Day.\n\nYours sincerely,\n\nSecret Santa'.format(p[1]))
+            f.write('The person who you are buying a Secret Santa present for is {}.\n\nPresent price limit to be decided amongst group. Presents should be delivered to the recipients house as there will sadly be no in person Christmas Meal this year. We will of course be opening them together virtually!!\n\nYours sincerely,\n\nSecret Santa'.format(p[1]))
     return
 
 
